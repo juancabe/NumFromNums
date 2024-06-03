@@ -1,7 +1,5 @@
 import copy
 
-nums = [2, 3, 9, 8, 91]
-guess = 531
 opDir = {
 	0: '+',
 	1: '-',
@@ -118,5 +116,8 @@ def find_op(nums, guess):
 		else:
 			find_op(nums, guess+1)
 		
+nums = [2, 3, 9, 8, 91]
+guess = 531
+
 
 find_op(nums, guess)
