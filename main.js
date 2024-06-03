@@ -1,12 +1,10 @@
 function findOpRec(nums, guess, ops, order){
 
-    console.log("nums: " + nums);
-    console.log("guess: " + guess);
-    console.log("ops: " + ops);
+    
 
-    saved_nums = deepCopyArray(nums);
-    saved_ops = deepCopyArray(ops);
-    saved_order = deepCopyArray(order); 
+    let saved_nums = deepCopyArray(nums);
+    let saved_ops = deepCopyArray(ops);
+    let saved_order = deepCopyArray(order); 
 
     if(nums.length < 1){
         console.log("Error < 1");
@@ -26,7 +24,7 @@ function findOpRec(nums, guess, ops, order){
     for(let x = 0; x < 4; x++){
         for(let i = 0; i < nums.length; i++){
             for(let j = 0; j < nums.length; j++){
-                if((i == j) && (nums[i] < nums[j])){
+                if((i == j) || (nums[i] < nums[j])){
                     continue;
                 }
 
@@ -50,11 +48,16 @@ function findOpRec(nums, guess, ops, order){
                 }
 
                 ops[i].push(x);
-                order.push([i, j]);
+                order.push(i);
+                order.push(j);
                 nums.splice(j, 1);
 
                 let xd = findOpRec(nums, guess, ops, order);
                 if(xd != null){
+                    console.log("nums: " + nums);
+                    console.log("guess: " + guess);
+                    console.log("ops: " + ops);
+                    console.log("order: " + order);
                     return xd;
                 } else{
                     nums.length = 0;
@@ -62,20 +65,26 @@ function findOpRec(nums, guess, ops, order){
                     order.length = 0;
 
                     nums.push(...saved_nums);
-                    ops.push(...saved_ops);
                     order.push(...saved_order);
+                    for(let ooo = 0; ooo < saved_ops.length; ooo++){
+                        ops.push([]);
+                        ops[ops.length-1] = [...saved_ops[ooo]];
+                    }
                 }
             }
         }
     }
-
     nums.length = 0;
     ops.length = 0;
     order.length = 0;
 
     nums.push(...saved_nums);
-    ops.push(...saved_ops);
     order.push(...saved_order);
+    for(let ooo = 0; ooo < saved_ops.length; ooo++){
+        ops.push([]);
+        ops[ops.length-1] = [...saved_ops[ooo]];
+    }
+    
 
     return null;
 }

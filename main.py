@@ -105,8 +105,8 @@ def find_op(nums, guess):
 	if(x):
 		order = x[0]
 		ops = x[1]
-		#print("order: " + str(order))
-		#print("ops: " + str(ops))
+		print("order: " + str(order))
+		print("ops: " + str(ops))
 		print_op(nums, guess, ops, order)
 		return True
 	else:
@@ -116,8 +116,8 @@ def find_op(nums, guess):
 		else:
 			find_op(nums, guess+1)
 		
-nums = [2, 3, 9, 8, 91]
-guess = 531
+nums = [1,3,54,23,4]
+guess = 67
 
 
 find_op(nums, guess)
