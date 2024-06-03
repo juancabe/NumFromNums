@@ -1,7 +1,7 @@
 import copy
 
-nums = [2, 2, 7, 9, 8, 19]
-guess = 1323
+nums = [2, 3, 9, 8, 91]
+guess = 531
 opDir = {
 	0: '+',
 	1: '-',
@@ -9,12 +9,11 @@ opDir = {
 	3: '*'
 }
 
-def find_op_rec(nums, guess, ops, order, branch):
+def find_op_rec(nums, guess, ops, order):
 	
 	saved_nums = copy.deepcopy(nums)
 	saved_ops = copy.deepcopy(ops)
 	saved_order = copy.deepcopy(order)
-	saved_branch = branch
 
 	if(len(nums) < 1):
 		print("Error < 1")
@@ -59,19 +58,17 @@ def find_op_rec(nums, guess, ops, order, branch):
 					order.append([i,j])
 					nums.pop(j)
 
-					xd = find_op_rec(nums, guess, ops, order, branch)
+					xd = find_op_rec(nums, guess, ops, order)
 					if(xd):
 						return xd
 					else:
 						nums = copy.deepcopy(saved_nums)
 						ops = copy.deepcopy(saved_ops)
 						order = copy.deepcopy(saved_order)
-						branch = saved_branch
 	
 	nums = copy.deepcopy(saved_nums)
 	ops = copy.deepcopy(saved_ops)
 	order = copy.deepcopy(saved_order)
-	branch = saved_branch
 
 	return False
 
@@ -101,20 +98,25 @@ def print_op(nums, guess, ops, order):
 		nums.pop(x[1])
 
 	print("Guess: " + str(guess))
-	print("Operations: " + operations)
+	print("Operations: \n" + operations)
 
 def find_op(nums, guess):
 	ops = [[], [], [], [] ,[]]
 	order = []
-	branch = 0
-	x = find_op_rec(copy.deepcopy(nums), guess, ops, order, branch)
+	x = find_op_rec(copy.deepcopy(nums), guess, ops, order)
 	if(x):
 		order = x[0]
 		ops = x[1]
 		#print("order: " + str(order))
 		#print("ops: " + str(ops))
 		print_op(nums, guess, ops, order)
+		return True
 	else:
 		print('Fuck')
+		if(find_op(nums, guess-1)):
+			return True
+		else:
+			find_op(nums, guess+1)
+		
 
 find_op(nums, guess)
